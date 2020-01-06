@@ -4,7 +4,7 @@ Backup: http://15.165.89.5:4567, http://15.165.89.5:4568, http://15.165.89.5:456
 *Docker images available here: https://hub.docker.com/repository/docker/haonh/wh/* 
  
 * Go to website of challenge we will see: 
-![alt text](https://i.ibb.co/qjs63kg/Index.png "Index website") \
+![alt text](images/index.png "Index website") \
 Website using express framework - nodejs. Have funtions home, service, contact and login.
 * We view source code website and find interesting is like user of website is test/test Use user we got to login website and get two information *You don’t have permission* and token of users test like base 64. However, we have not seen any function that uses this token, it is likely to be opened when we have user admin.
 ![alt text](https://i.ibb.co/F3v3Sdv/logintest.png "Login test")
