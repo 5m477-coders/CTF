@@ -3,10 +3,6 @@ Challenge: http://15.165.89.5/ \
 Backup: http://15.165.89.5:4567, http://15.165.89.5:4568, http://15.165.89.5:4569 \
 *Docker images available here: https://hub.docker.com/repository/docker/haonh/wh/* 
  
-   
-# ================================== 
- 
-However, we have not seen any function that uses this token, it is likely to be opened when it has admin rights.
 * Go to website of challenge we will see: 
 ![alt text](https://i.ibb.co/qjs63kg/Index.png "Index website")
 Website using express framework - nodejs. Have funtions home, service, contact and login.
@@ -25,5 +21,7 @@ It is the json string containing the user's session information. This string see
 
 The token chain is dumped from the user's session and then converted back. In nodejs, there are serialize and unserialize functions that support this. So we need check  exploit Node.js deserialization bug. Readmore https://www.exploit-db.com/docs/english/41289-exploiting-node.js-deserialization-bug-for-remote-code-execution.pdf
 
+![alt text](https://i.ibb.co/cy97WFg/Screenshot-from-2020-01-07-00-09-43.png "Exploit")
 
+![alt text](https://i.ibb.co/SNZ9Pmf/Screenshot-from-2020-01-07-00-10-30.png "Revershell")
 File exploit.
