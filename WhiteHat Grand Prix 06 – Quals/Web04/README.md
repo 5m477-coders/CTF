@@ -1,4 +1,4 @@
-# WEB 04 - VIETNAMESE FOOD Challenge \
+# WEB 04 - VIETNAMESE FOOD Challenge 
 Challenge: http://15.165.89.5/ \
 Backup: http://15.165.89.5:4567, http://15.165.89.5:4568, http://15.165.89.5:4569 \
 *Docker images available here: https://hub.docker.com/repository/docker/haonh/wh/* 
@@ -8,7 +8,7 @@ Backup: http://15.165.89.5:4567, http://15.165.89.5:4568, http://15.165.89.5:456
   
   
 * Go to website of challenge we will see: 
-<img website>
+![alt text](https://i.ibb.co/vmt6BQ3/Index.png "Logo Title Text 1")
 Chúng ta có thể kiểm tra nhanh website được viết bằng nodejs với framework expreess
 Website web have menu home, service, Contact and login. We check all menu and see login or contact may be vuln.
 * We view source code website and find interesting is like user of website is test/test Use user we got to login website and get two information *You don’t have permission* and token of users test like base 64
