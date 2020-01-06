@@ -20,6 +20,7 @@ We can bypass login using vuln nosql injection. Opening the way to solve the cha
 
 Back to the token user test we have. That is the base64 string using tool decode we have the information:
 ![alt text](https://i.ibb.co/kB4ZzBx/token.png "Token")
+
 It is the json string containing the user's session information. This string seems to be dumped from the user's session.
 
 The token chain is dumped from the user's session and then converted back. In nodejs, there are serialize and unserialize functions that support this. So we need check  exploit Node.js deserialization bug. Readmore https://www.exploit-db.com/docs/english/41289-exploiting-node.js-deserialization-bug-for-remote-code-execution.pdf
