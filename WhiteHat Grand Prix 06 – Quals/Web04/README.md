@@ -5,27 +5,22 @@ Backup: http://15.165.89.5:4567, http://15.165.89.5:4568, http://15.165.89.5:456
  
    
 # ================================== 
-  
-  
+ 
+However, we have not seen any function that uses this token, it is likely to be opened when it has admin rights.
 * Go to website of challenge we will see: 
-![alt text](https://i.ibb.co/vmt6BQ3/Index.png "Logo Title Text 1")
-Chúng ta có thể kiểm tra nhanh website được viết bằng nodejs với framework expreess
-Website web have menu home, service, Contact and login. We check all menu and see login or contact may be vuln.
-* We view source code website and find interesting is like user of website is test/test Use user we got to login website and get two information *You don’t have permission* and token of users test like base 64
-* Từ đây ta có thể đoán được user test mà ta tìm thấy không phải là user có quyền admin. Do đó chúng ta cần tìm user có quyền admin để giải quyết challenge này. Có rất nhiều đội chơi đã cố gắng chiếm quyền Admin qua việc khai thác lỗi XSS ở form contact. Tất nhiên sẽ không khai thác được vì website không có lỗi xss. Quay lại đầu vào ban đầu ở chức năng login dựa vào căn cứ website được viết bằng nodejs do đó sẽ có rất nhiều khả năng dùng csdl mongodb. Do đó ta sẽ test lỗi nosql injection ở chức năng đăng nhập. Ta dùng payload : username=test&password[$ne]= check bypass login. Các bạn có thể tìm hiểu thêm tại đây https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/NoSQL%20Injection#tools
-<img burpsuite bypass>
-Payload đã hoạt động và ta đã bypass login được qua lỗi sqlinjection. Từ đó có thể khắng định chắc chắn website bị dính lỗi sql injection ở chức năng login. Mở ra hướng giải quyết challenge là sử dụng lỗi nosql injection để dump dữ liệu tất cả các user và tìm user nào có quyền admin.
-Chúng ta có thể dùng các payload với từ khóa regex để dump dữ liệu các user. 
-* Sau khi dump toàn bộ user và login kiểm tra quyền admin ta thấy user có quyền admin có tên là *itachi*. Dùng user này login vào website qua việc bypass đăng nhập ta thấy mở thêm chức năng checktoken.
-Quay lại với chuỗi token mỗi user được cung cấp. Đó là các chuỗi base64 sử dụng tools decode ra token 1 user ta có thông tin:
+![alt text](https://i.ibb.co/qjs63kg/Index.png "Index website")
+Website using express framework - nodejs. Have funtions home, service, contact and login.
+* We view source code website and find interesting is like user of website is test/test Use user we got to login website and get two information *You don’t have permission* and token of users test like base 64. However, we have not seen any function that uses this token, it is likely to be opened when we have user admin.
+![alt text](https://i.ibb.co/F3v3Sdv/logintest.png "Login test")
+* Test user does not have access privileges. So we need to find a user with admin privileges to solve this challenge. Website using nodejs so databases backend may be mongodb. We found nosql injection vuln in login funtion ( https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/NoSQL%20Injection#tools )
+![alt text](https://i.ibb.co/BrwX5CR/burploginnosqli.png "Login test")
+We can bypass login using vuln nosql injection. Opening the way to solve the challenge is to use nosql injection error to dump the data of all users and find the user who has admin privileges by use $regex.
 
-Là chuỗi json chứa thông tin phiên làm việc của người dùng. Chuỗi này có vẻ giống được dump ra từ session của người dùng. 
-* Chức năng check token lấy đầu vào là chuỗi base64 và in ra thông tin người dùng. Thử sửa lại thông tin người dùng và upload lên thì ta thấy website đang nhận thông tin từ người dùng để hiện thị ra.
-Ta có thể hình dung luồng xử lý ở phía server: Base64 token => Decodebase64 => Convert object to json => Tra ve cho nguoi dung
+* After dump user we found user *itachi* has admin privileges. Using this user to log in to the website via bypassing the login will open the checktoken function.
 
-Chuỗi token được dump từ session của người dùng và sau đó được convert ngược lại. Trong nodejs có hàm serialize và unserialize hỗ trợ làm việc này. Do đó ta check khai thac lỗi qua lỗi serialize. Tham khảo bài viết 
-Ta tiến hành khai thác revershell về máy chủ và lấy flag
+Back to the token user test we have. That is the base64 string using tool decode we have the information:
+![alt text](https://i.ibb.co/kB4ZzBx/token.png "Token")
+It is the json string containing the user's session information. This string seems to be dumped from the user's session.
+
+The token chain is dumped from the user's session and then converted back. In nodejs, there are serialize and unserialize functions that support this. So we need check  exploit Node.js deserialization bug. Readmore https://www.exploit-db.com/docs/english/41289-exploiting-node.js-deserialization-bug-for-remote-code-execution.pdf
 File exploit.
-
-
-  
